@@ -33,7 +33,7 @@ h = root.winfo_screenheight()
 
 root.title("COMPANY BOSSCCOM")
 root.overrideredirect(True)
-root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
+root.geometry("1360x768")
 labels_list = []
 image = PhotoImage(file="ngang1.png")
 img_resize = image.subsample(1, 1)
@@ -568,6 +568,7 @@ class Application:
 
                     if ret == True:
                         self.displayImage(frame, 1)
+
                         cv2.waitKey()
                         if (self.logic == 2):
                             self.value = self.value + 1
@@ -613,6 +614,7 @@ class Application:
                 img = img.rgbSwapped()
                 self.imgLabel.setPixmap(QPixmap.fromImage(img))
                 self.imgLabel.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignLeft)
+
 
             def f2vrec(self):
                 self.logic = 3
