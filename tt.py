@@ -3,20 +3,21 @@ import sqlite3
 import tkinter as tk
 import tkinter.messagebox
 from datetime import date
-import os
 from tkinter import ttk
 import datetime
-import cv2
 import sys
-from PyQt5 import QtCore
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtGui import QImage, QPixmap
-from PyQt5.QtWidgets import QDialog, QApplication
-from PyQt5.uic import loadUi
-import imutils
-import shutil
 from fpdf import FPDF
 import webbrowser
+import cv2
+import os
+from PyQt5 import QtCore, QtGui, QtWidgets                     # uic
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QWidget,
+                             QLabel, QVBoxLayout)              # +++
+from PyQt5.QtGui import QPixmap
+import imutils
+import shutil
+from test2_ui import Ui_Form                                   # +++
+
 
 today = date.today()
 date = datetime.datetime.now().date()
@@ -26,14 +27,11 @@ product_price = []
 product_quantity = []
 product_id = []
 # list for labels
-root = Tk()
 #w = root.winfo_screenwidth()
 #h = root.winfo_screenheight()
+root = Tk()
 root.title("COMPANY BOSSCCOM")
-root.overrideredirect(True)
 labels_list = []
-image = PhotoImage(file="ngang1.png")
-img_resize = image.subsample(1, 1)
 var = IntVar()
 var1 = IntVar()
 c = StringVar()
@@ -45,40 +43,39 @@ class Application:
     def __init__(self, master, *args, **kwargs):
         self.master = master
         # frame
-        self.left1 = Frame(master, width=1024, height=60, bg='white')
-        self.left1.pack(side=TOP)
-        Label(self.left1, image=img_resize, bg="white", relief=SUNKEN).pack(pady=5)
 
-        self.left = Frame(master, width=260, height=1000, bg='white')
+
+        self.left = Frame(master, width=295, height=1000, bg='white')
         self.left.pack(side=LEFT)
 
         # components
         self.date_l = Label(self.left,
                             text="Today's Date: " + str(today.day) + "-" + str(today.month) + "-" + str(today.year),
-                            font=('arial 14 bold'), bg='lightblue',
+                            font=('arial 18 bold'), bg='lightblue',
                             fg='white')
-        self.date_l.place(x=20, y=0)
+        self.date_l.place(x=10, y=0)
 
         # button
-        self.bt_st_catalog = Button(self.left, text="Hồ sơ bệnh nhân", width=15, height=2, font=('arial 18 bold'),
+        self.bt_st_catalog = Button(self.left, text="Hồ sơ bệnh nhân", width=18, height=4, font=('arial 18 bold'),
                                     bg='orange', command=self.ajax)
         self.bt_st_catalog.place(x=8, y=45)
 
-        self.bt_st_form = Button(self.left, text="Nội soi", width=15, height=2, font=('arial 18 bold'), bg='orange',
-                                 command=self.endoscopy)
-        self.bt_st_form.place(x=8, y=135)
+        self.bt_st_form = Button(self.left, text="Nội soi", width=18, height=4, font=('arial 18 bold'), bg='orange',command=self.endoscopy)
+        self.bt_st_form.place(x=8, y=175)
 
-        self.bt_patient = Button(self.left, text="Biểu mẫu in", width=15, height=2, font=('arial 18 bold'), bg='orange',
+        self.bt_patient = Button(self.left, text="Biểu mẫu in", width=18, height=4, font=('arial 18 bold'), bg='orange',
                                  command=self.add_to_bn)
-        self.bt_patient.place(x=8, y=225)
+        self.bt_patient.place(x=8, y=305)
 
-        self.bt_endoscop = Button(self.left, text="Danh mục khám", width=15, height=2, font=('arial 18 bold'),
+        self.bt_endoscop = Button(self.left, text="Danh mục khám", width=18, height=4, font=('arial 18 bold'),
                                   bg='orange', command=self.createNewWindow)
-        self.bt_endoscop.place(x=8, y=315)
+        self.bt_endoscop.place(x=8, y=430)
 
-        self.bt_exit1 = Button(self.left, text="Thoát", width=15, height=2, font=('arial 18 bold'), bg='orange',
+        self.bt_exit1 = Button(self.left, text="Thoát", width=18, height=4, font=('arial 18 bold'), bg='orange',
                                command=self.quit)
-        self.bt_exit1.place(x=8, y=405)
+        self.bt_exit1.place(x=8, y=560)
+
+
 
     def Search(self, *args, **kwargs):
         # =====================================Table WIDGET=========================================
@@ -101,7 +98,7 @@ class Application:
 
     def ajax(self, *args, **kwargs):
 
-        self.right = Frame(root, width=1100, height=75, bg='white')
+        self.right = Frame(root, width=1100, height=110, bg='white')
         self.right.pack(side=TOP)
 
         self.bottom = Frame(root, width=1100, height=220, bg='lightblue')
@@ -120,30 +117,30 @@ class Application:
         self.RightForm = Frame(self.MidFrame, width=1100)
         self.RightForm.pack(side=RIGHT)
 
-        self.bt_add_patient = Button(self.right, text="Lưu hồ sơ", width=14, height=3, font=('arial 12 bold'),
+        self.bt_add_patient = Button(self.right, text="Lưu hồ sơ", width=12, height=4, font=('arial 16 bold'),
                                      bg='white', command=self.get_itemsdatabase)
         self.bt_add_patient.place(x=0, y=0)
 
-        self.bt_open_file = Button(self.right, text="Mở hồ sơ", width=14, height=3, font=('arial 12 bold'), bg='white',
+        self.bt_open_file = Button(self.right, text="Mở hồ sơ", width=12, height=4, font=('arial 16 bold'), bg='white',
                                    command=self.create_pdf1)
-        self.bt_open_file.place(x=150, y=0)
+        self.bt_open_file.place(x=168, y=0)
         #
-        self.bt_save_file = Button(self.right, text="Làm mới", width=14, height=3, font=('arial 12 bold'), bg='white',
+        self.bt_save_file = Button(self.right, text="Làm mới", width=12, height=4, font=('arial 16 bold'), bg='white',
                                    command=self.delete_text)
-        self.bt_save_file.place(x=300, y=0)
+        self.bt_save_file.place(x=336, y=0)
         #
-        self.bt_delele1 = Button(self.right, text="Xóa", width=14, height=3, font=('arial 12 bold'), bg='white',
+        self.bt_delele1 = Button(self.right, text="Xóa", width=12, height=4, font=('arial 16 bold'), bg='white',
                                  command=self.Deletedata)
         # command=self.Deletedata)
-        self.bt_delele1.place(x=450, y=0)
+        self.bt_delele1.place(x=504, y=0)
         #
-        self.bt_thoat = Button(self.right, text="Đóng", width=14, height=3, font=('arial 12 bold'), bg='white',
+        self.bt_thoat = Button(self.right, text="Đóng", width=12, height=4, font=('arial 16 bold'), bg='white',
                                command=self.add_to_cart)
 
-        self.bt_thoat.place(x=600, y=0)
-        self.bt_thoat = Button(self.right, text="Khôi phục cài đặt gốc", width=14, height=3, font=('arial 12 bold'),
+        self.bt_thoat.place(x=672, y=0)
+        self.bt_thoat = Button(self.right, text="Khôi phục cài đặt gốc", width=16, height=5, font=('arial 12 bold'),
                                bg='white',command=self.Deletealldata)
-        self.bt_thoat.place(x=750, y=0)
+        self.bt_thoat.place(x=840, y=0)
 
         self.tenbenhnhan = Label(self.bottom, text="Tên bệnh nhân:", font=('arial 12 bold'), fg='black', bg='lightblue')
         self.tenbenhnhan.place(x=15, y=5)
@@ -535,92 +532,102 @@ class Application:
         webbrowser.open_new(r'doccument/%s.pdf' % ("a" + str(row["id"])))
 
     def endoscopy(self):
-        class tehseencode(QDialog):
+        class video(QtWidgets.QDialog, Ui_Form):
             def __init__(self):
+                super().__init__()
+                self.value = 0
+                #        uic.loadUi('test2.ui',self)                           # ---
+                self.setupUi(self)  # +++
 
-                super(tehseencode, self).__init__()
-                loadUi("untitled2.ui", self)
-                self.logic = 0
-                self.value = 1
-                self.SHOW.clicked.connect(self.onClicked)
-                self.TEXT.setText("Kindly Press 'Show' to connect with webcam.")
-                self.CAPTURE.clicked.connect(self.CaptureClicked)
+                self.SHOW.clicked.connect(self.start_webcam)
+                self.CAPTURE.clicked.connect(self.capture_image)
                 self.NEXT_3.clicked.connect(self.create_pdf2)
-                self.CAPTURE_2.clicked.connect(self.f2vrec)
-                self.NEXT_2.clicked.connect(self.w1)
+                self.CAPTURE_2.clicked.connect(self.recoder)
+                # self.CAPTURE.clicked.connect(self.startUIWindow)       # - ()
                 self.NEXT_7.clicked.connect(self.w1)
 
-            @pyqtSlot()
-            def onClicked(self):
-                self.TEXT.setText('Kindly Press "Capture Image " to Capture image')
-                cap = cv2.VideoCapture(0)
+                self.imgLabel.setScaledContents(True)
+
+                self.cap = None  # -capture <-> +cap
+
+                self.timer = QtCore.QTimer(self, interval=5)
+                self.timer.timeout.connect(self.update_frame)
+                self._image_counter = 0
+                #self.start_webcam()
+
+
+
+            @QtCore.pyqtSlot()
+            def start_webcam(self):
+                if self.cap is None:
+                    self.cap = cv2.VideoCapture(0)
+                    self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 350)
+                    self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 500)
+                self.timer.start()
+
+            @QtCore.pyqtSlot()
+            def update_frame(self):
+                ret, image = self.cap.read()
+                image = imutils.resize(image, width=550, height=480)
+                image = cv2.flip(image, 1)
+                self.displayImage(image, True)
+
+            @QtCore.pyqtSlot()
+            def capture_image(self):
+                flag, frame = self.cap.read()
+                frame1 = imutils.resize(frame, width=200, height=150)
+                self.value = self.value + 1
+                conn = sqlite3.connect("db_member.db")
+                conn.row_factory = sqlite3.Row
+                cur = conn.cursor()
+                cur.execute("SELECT max(id) FROM member")
+                rows = cur.fetchall()
+                directory = "anh/"
+                if not os.path.exists(directory):
+                    os.makedirs(directory)
+                for row in rows:
+                    print("%s" % (row["max(id)"]))
+                cv2.imwrite('anh/%s.png' % ("a" + str(row["max(id)"]) + "a" + str(self.value)), frame1)
+                self.TEXT.setText('your Image have been Saved')
+                self.label = QLabel(self)
+                self.imgLabel_3.setPixmap(QPixmap('anh/%s.png' % ("a" + str(row["max(id)"]) + "a1" )))
+
+                self.imgLabel_4.setPixmap(QPixmap('anh/%s.png' % ("a" + str(row["max(id)"]) + "a2" )))
+
+                self.imgLabel_5.setPixmap(QPixmap('anh/%s.png' % ("a" + str(row["max(id)"]) + "a3" )))
+
+                self.imgLabel_6.setPixmap(QPixmap('anh/%s.png' % ("a" + str(row["max(id)"]) + "a4" )))
+
+
+                conn.commit()
+                conn.close()
+
+
+            def recoder(self):
+
                 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-                op = cv2.VideoWriter('Sample1.avi', fourcc, 11.0, (560, 560))
-                self.value=0
-                while (cap.isOpened()):
-                    ret, frame = cap.read()
-                    frame = imutils.resize(frame, width=560, height=560)
-                    frame1 = imutils.resize(frame, width=80, height=60)
-                    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                out = cv2.VideoWriter('output.avi', fourcc, 20.0, (350, 300))
+                ret, frame = self.cap.read()
+                frame = cv2.flip(frame, 0)
+                out.write(frame)
+                self.TEXT.setText('VIDEO RECORDER')
 
-                    if ret == True:
-                        self.displayImage(frame, 1)
-
-                        cv2.waitKey()
-                        if (self.logic == 2):
-                            self.value = self.value + 1
-                            conn = sqlite3.connect("db_member.db")
-                            conn.row_factory = sqlite3.Row
-                            cur = conn.cursor()
-                            cur.execute("SELECT max(id) FROM member")
-                            rows = cur.fetchall()
-                            directory = "anh/"
-                            if not os.path.exists(directory):
-                                os.makedirs(directory)
-                            for row in rows:
-                                print("%s" % (row["max(id)"]))
-                            cv2.imwrite('anh/%s.png' % ("a" + str(row["max(id)"]) + "a" + str(self.value)), frame1)
-                            self.TEXT.setText('your Image have been Saved')
-
-                            conn.commit()
-                            conn.close()
-                            self.logic = 1
-
-                        if (self.logic == 3):
-                            op.write(frame)
-
-                        if (self.logic == 4):
-                            cap.release()
-                            break
-
-                    else:
-                        print('not found')
-                cap.release()
-                cv2.destroyAllWindows()
-
-            def CaptureClicked(self):
-                self.logic = 2
-
-
-            def displayImage(self, img, window=1):
-                qformat = QImage.Format_Indexed8
+            def displayImage(self, img, window=True):
+                qformat = QtGui.QImage.Format_Indexed8
                 if len(img.shape) == 3:
-                    if (img.shape[2]) == 4:
-                        qformat = QImage.Format_RGBA888
+                    if img.shape[2] == 4:
+                        qformat = QtGui.QImage.Format_RGBA8888
                     else:
-                        qformat = QImage.Format_RGB888
-                img = QImage(img, img.shape[1], img.shape[0], qformat)
-                img = img.rgbSwapped()
-                self.imgLabel.setPixmap(QPixmap.fromImage(img))
-                self.imgLabel.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignLeft)
+                        qformat = QtGui.QImage.Format_RGB888
+                outImage = QtGui.QImage(img, img.shape[1], img.shape[0], img.strides[0], qformat)
+                outImage = outImage.rgbSwapped()
+                if window:
+                    self.imgLabel.setPixmap(QtGui.QPixmap.fromImage(outImage))
 
-
-            def f2vrec(self):
-                self.logic = 3
 
             def w1(self):
-                #self.logic = 4
                 window.close()
+                self.cap.release()
 
             def create_pdf2(self):
                 # Set up a logo
@@ -740,12 +747,12 @@ class Application:
                 pdf.cell(70)
                 pdf.cell(0, 0, 'HÌNH ẢNH NỘI SOI ', ln=1)
                 #
-                file_name =  ('anh\%s.png' % ("a" + str(row["max(id)"]) + "a" + str(2)))
-                file_name1 = ('anh\%s.png' % ("a" + str(row["max(id)"]) + "a" + str(3)))
-                file_name2 = ('anh\%s.png' % ("a" + str(row["max(id)"]) + "a" + str(4)))
-                file_name3 = ('anh\%s.png' % ("a" + str(row["max(id)"]) + "a" + str(5)))
-                file_name4 = ('anh\%s.png' % ("a" + str(row["max(id)"]) + "a" + str(6)))
-                file_name5 = ('anh\%s.png' % ("a" + str(row["max(id)"]) + "a" + str(7)))
+                file_name =  ('anh/%s.png' % ("a" + str(row["max(id)"]) + "a" + str(2)))
+                file_name1 = ('anh/%s.png' % ("a" + str(row["max(id)"]) + "a" + str(3)))
+                file_name2 = ('anh/%s.png' % ("a" + str(row["max(id)"]) + "a" + str(4)))
+                file_name3 = ('anh/%s.png' % ("a" + str(row["max(id)"]) + "a" + str(5)))
+                file_name4 = ('anh/%s.png' % ("a" + str(row["max(id)"]) + "a" + str(6)))
+                file_name5 = ('anh/%s.png' % ("a" + str(row["max(id)"]) + "a" + str(7)))
                 #
                 pdf.image(file_name, 12, 90, 60)
                 pdf.image(file_name1, 12, 150, 60)
@@ -780,20 +787,19 @@ class Application:
                     os.makedirs(directory1)
                 pdf.output('doccument/%s.pdf' %("a" + str(row["max(id)"])))
 
-                webbrowser.open_new(r'doccument\%s.pdf' %("a" + str(row["max(id)"])))
+                webbrowser.open_new(r'doccument/%s.pdf' %("a" + str(row["max(id)"])))
                 conn.commit()
                 cur.close()
-
-        window = tehseencode()
+        window = video()
         window.show()
         try:
             sys.exit(app.exec_())
         except:
             print('excitng')
 
-
 app = QApplication(sys.argv)
-root.geometry("1366x768")
+root.geometry("1360x768")
 b = Application(root)
 root.mainloop()
+
 
