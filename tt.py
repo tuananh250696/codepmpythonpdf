@@ -36,18 +36,16 @@ var = IntVar()
 var1 = IntVar()
 c = StringVar()
 c1 = StringVar()
-
+logic1 = 1
 
 
 class Application:
     def __init__(self, master, *args, **kwargs):
         self.master = master
+        self.logic1 = 1
         # frame
-
-
         self.left = Frame(master, width=295, height=1000, bg='white')
         self.left.pack(side=LEFT)
-
         # components
         self.date_l = Label(self.left,
                             text="Today's Date: " + str(today.day) + "-" + str(today.month) + "-" + str(today.year),
@@ -96,149 +94,156 @@ class Application:
         self.from_addss.delete(0, tk.END)
         self.born_agess.delete(0, tk.END)
 
-    def ajax(self, *args, **kwargs):
+    def ajax(self):
+        if (self.logic1 == 1):
+            self.right = Frame(root, width=1100, height=110, bg='white')
+            self.right.pack(side=TOP)
 
-        self.right = Frame(root, width=1100, height=110, bg='white')
-        self.right.pack(side=TOP)
+            self.bottom = Frame(root, width=1100, height=220, bg='lightblue')
+            self.bottom.pack(side=TOP)
 
-        self.bottom = Frame(root, width=1100, height=220, bg='lightblue')
-        self.bottom.pack(side=TOP)
+            self.bottom1 = Frame(root, width=1100, height=80, bg='yellow')
+            self.bottom1.pack(side=TOP)
 
-        self.bottom1 = Frame(root, width=1100, height=80, bg='yellow')
-        self.bottom1.pack(side=TOP)
+            self.bottom2 = Frame(root, width=1100, height=550, bg='lightblue')
+            self.bottom2.pack(side=TOP)
 
-        self.bottom2 = Frame(root, width=1100, height=550, bg='lightblue')
-        self.bottom2.pack(side=TOP)
+            self.Top = Frame(self.bottom2, width=1000, bd=2, relief=SOLID)
+            self.Top.pack(side=TOP)
+            self.MidFrame = Frame(self.bottom2, width=1000)
+            self.MidFrame.pack(side=TOP)
+            self.RightForm = Frame(self.MidFrame, width=1100)
+            self.RightForm.pack(side=RIGHT)
 
-        self.Top = Frame(self.bottom2, width=1000, bd=2, relief=SOLID)
-        self.Top.pack(side=TOP)
-        self.MidFrame = Frame(self.bottom2, width=1000)
-        self.MidFrame.pack(side=TOP)
-        self.RightForm = Frame(self.MidFrame, width=1100)
-        self.RightForm.pack(side=RIGHT)
+            self.bt_add_patient = Button(self.right, text="Lưu hồ sơ", width=12, height=4, font=('arial 16 bold'),
+                                         bg='white', command=self.get_itemsdatabase)
+            self.bt_add_patient.place(x=0, y=0)
 
-        self.bt_add_patient = Button(self.right, text="Lưu hồ sơ", width=12, height=4, font=('arial 16 bold'),
-                                     bg='white', command=self.get_itemsdatabase)
-        self.bt_add_patient.place(x=0, y=0)
+            self.bt_open_file = Button(self.right, text="Mở hồ sơ", width=12, height=4, font=('arial 16 bold'),
+                                       bg='white',
+                                       command=self.create_pdf1)
+            self.bt_open_file.place(x=168, y=0)
+            #
+            self.bt_save_file = Button(self.right, text="Làm mới", width=12, height=4, font=('arial 16 bold'),
+                                       bg='white',
+                                       command=self.delete_text)
+            self.bt_save_file.place(x=336, y=0)
+            #
+            self.bt_delele1 = Button(self.right, text="Xóa", width=12, height=4, font=('arial 16 bold'), bg='white',
+                                     command=self.Deletedata)
+            # command=self.Deletedata)
+            self.bt_delele1.place(x=504, y=0)
+            #
+            self.bt_thoat = Button(self.right, text="Đóng", width=12, height=4, font=('arial 16 bold'), bg='white',
+                                   command=self.add_to_cart)
 
-        self.bt_open_file = Button(self.right, text="Mở hồ sơ", width=12, height=4, font=('arial 16 bold'), bg='white',
-                                   command=self.create_pdf1)
-        self.bt_open_file.place(x=168, y=0)
-        #
-        self.bt_save_file = Button(self.right, text="Làm mới", width=12, height=4, font=('arial 16 bold'), bg='white',
-                                   command=self.delete_text)
-        self.bt_save_file.place(x=336, y=0)
-        #
-        self.bt_delele1 = Button(self.right, text="Xóa", width=12, height=4, font=('arial 16 bold'), bg='white',
-                                 command=self.Deletedata)
-        # command=self.Deletedata)
-        self.bt_delele1.place(x=504, y=0)
-        #
-        self.bt_thoat = Button(self.right, text="Đóng", width=12, height=4, font=('arial 16 bold'), bg='white',
-                               command=self.add_to_cart)
+            self.bt_thoat.place(x=672, y=0)
+            self.bt_thoat = Button(self.right, text="Khôi phục cài đặt gốc", width=16, height=5, font=('arial 12 bold'),
+                                   bg='white', command=self.Deletealldata)
+            self.bt_thoat.place(x=840, y=0)
 
-        self.bt_thoat.place(x=672, y=0)
-        self.bt_thoat = Button(self.right, text="Khôi phục cài đặt gốc", width=16, height=5, font=('arial 12 bold'),
-                               bg='white',command=self.Deletealldata)
-        self.bt_thoat.place(x=840, y=0)
+            self.tenbenhnhan = Label(self.bottom, text="Tên bệnh nhân:", font=('arial 12 bold'), fg='black',
+                                     bg='lightblue')
+            self.tenbenhnhan.place(x=15, y=5)
 
-        self.tenbenhnhan = Label(self.bottom, text="Tên bệnh nhân:", font=('arial 12 bold'), fg='black', bg='lightblue')
-        self.tenbenhnhan.place(x=15, y=5)
+            self.name_p = Entry(self.bottom, font=('arial 24 bold'), width=20)
+            self.name_p.place(x=5, y=30)
+            self.name_p.focus()
 
-        self.name_p = Entry(self.bottom, font=('arial 24 bold'), width=20)
-        self.name_p.place(x=5, y=30)
-        self.name_p.focus()
+            self.adr = Label(self.bottom, text="Địa chỉ:", font=('arial 12 bold'), fg='black', bg='lightblue')
+            self.adr.place(x=15, y=75)
 
-        self.adr = Label(self.bottom, text="Địa chỉ:", font=('arial 12 bold'), fg='black', bg='lightblue')
-        self.adr.place(x=15, y=75)
+            self.adr_p = Entry(self.bottom, font=('arial 24 bold'), width=20)
+            self.adr_p.place(x=5, y=100)
 
-        self.adr_p = Entry(self.bottom, font=('arial 24 bold'), width=20)
-        self.adr_p.place(x=5, y=100)
+            self.year_b = Label(self.bottom, text="Năm sinh:", font=('arial 12 bold'), fg='black', bg='lightblue')
+            self.year_b.place(x=15, y=150)
 
-        self.year_b = Label(self.bottom, text="Năm sinh:", font=('arial 12 bold'), fg='black', bg='lightblue')
-        self.year_b.place(x=15, y=150)
+            self.y_b = Entry(self.bottom, font=('arial 24 bold'), width=20)
+            self.y_b.place(x=5, y=175)
 
-        self.y_b = Entry(self.bottom, font=('arial 24 bold'), width=20)
-        self.y_b.place(x=5, y=175)
+            self.job = Label(self.bottom, text="Nghề nghiệp:", font=('arial 12 bold'), fg='black', bg='lightblue')
+            self.job.place(x=425, y=5)
+            self.jobw = Entry(self.bottom, font=('arial 24 bold'), width=20)
+            self.jobw.place(x=410, y=30)
 
-        self.job = Label(self.bottom, text="Nghề nghiệp:", font=('arial 12 bold'), fg='black', bg='lightblue')
-        self.job.place(x=425, y=5)
-        self.jobw = Entry(self.bottom, font=('arial 24 bold'), width=20)
-        self.jobw.place(x=410, y=30)
+            self.st = Label(self.bottom, text="Triệu chứng:", font=('arial 12 bold'), fg='black', bg='lightblue')
+            self.st.place(x=420, y=75)
+            self.stom = Entry(self.bottom, font=('arial 24 bold'), width=20)
+            self.stom.place(x=410, y=100)
 
-        self.st = Label(self.bottom, text="Triệu chứng:", font=('arial 12 bold'), fg='black', bg='lightblue')
-        self.st.place(x=420, y=75)
-        self.stom = Entry(self.bottom, font=('arial 24 bold'), width=20)
-        self.stom.place(x=410, y=100)
+            self.sbh = Label(self.bottom, text="Số bảo hiểm:", font=('arial 12 bold'), fg='black', bg='lightblue')
+            self.sbh.place(x=420, y=150)
+            self.nbh = Entry(self.bottom, font=('arial 24 bold'), width=20)
+            self.nbh.place(x=410, y=175)
 
-        self.sbh = Label(self.bottom, text="Số bảo hiểm:", font=('arial 12 bold'), fg='black', bg='lightblue')
-        self.sbh.place(x=420, y=150)
-        self.nbh = Entry(self.bottom, font=('arial 24 bold'), width=20)
-        self.nbh.place(x=410, y=175)
+            self.tel = Label(self.bottom, text="Điện thoại:", font=('arial 12 bold'), fg='black', bg='lightblue')
+            self.tel.place(x=800, y=5)
+            self.telw = Entry(self.bottom, font=('arial 24 bold'), width=12)
+            self.telw.place(x=790, y=30)
 
-        self.tel = Label(self.bottom, text="Điện thoại:", font=('arial 12 bold'), fg='black', bg='lightblue')
-        self.tel.place(x=800, y=5)
-        self.telw = Entry(self.bottom, font=('arial 24 bold'), width=12)
-        self.telw.place(x=790, y=30)
+            # self.enteride = Entry(self.bottom, width=25, font=('arial 18 bold'), bg='lightblue')
+            # self.enteride.place(x=800, y=175)
+            # self.enteride.focus()
 
-        # self.enteride = Entry(self.bottom, width=25, font=('arial 18 bold'), bg='lightblue')
-        # self.enteride.place(x=800, y=175)
-        # self.enteride.focus()
+            self.droplist = OptionMenu(self.bottom, c, 'NAM', 'NỮ')
+            self.droplist.pack()
+            self.menu = self.droplist.nametowidget(self.droplist.menuname)
+            self.menu.configure(font=('arial 20 bold'))
+            c.set('NAM')
+            self.droplist.config(width=10, font=('arial 18 bold'))
+            self.droplist.place(x=800, y=75)
 
-        self.droplist = OptionMenu(self.bottom, c, 'NAM', 'NỮ')
-        self.droplist.pack()
-        self.menu = self.droplist.nametowidget(self.droplist.menuname)
-        self.menu.configure(font=('arial 20 bold'))
-        c.set('NAM')
-        self.droplist.config(width=10, font=('arial 18 bold'))
-        self.droplist.place(x=800, y=75)
+            self.seachinfo = Button(self.bottom1, text="Tìm kiếm", width=15, height=1, font=('arial 18 bold'),
+                                    bg='orange',
+                                    command=self.Search)
+            self.seachinfo.place(x=800, y=5)
 
-        self.seachinfo = Button(self.bottom1, text="Tìm kiếm", width=15, height=1, font=('arial 18 bold'), bg='orange',
-                                command=self.Search)
-        self.seachinfo.place(x=800, y=5)
+            self.name_info = Label(self.bottom1, text="Tên:", font=('arial 12 bold'), fg='black', bg='lightblue')
+            self.name_info.place(x=5, y=10)
 
-        self.name_info = Label(self.bottom1, text="Tên:", font=('arial 12 bold'), fg='black', bg='lightblue')
-        self.name_info.place(x=5, y=10)
+            self.name_infos = Entry(self.bottom1, width=18, font=('arial 20 bold'), bg='white')
+            self.name_infos.place(x=5, y=38)
 
-        self.name_infos = Entry(self.bottom1, width=18, font=('arial 20 bold'), bg='white')
-        self.name_infos.place(x=5, y=38)
+            self.job_s = Label(self.bottom1, text="Nghề nghiệp:", font=('arial 12 bold'), fg='black', bg='lightblue')
+            self.job_s.place(x=290, y=10)
+            self.from_jobs = Entry(self.bottom1, font=('arial 20 bold'), width=12)
+            self.from_jobs.place(x=290, y=38)
 
-        self.job_s = Label(self.bottom1, text="Nghề nghiệp:", font=('arial 12 bold'), fg='black', bg='lightblue')
-        self.job_s.place(x=290, y=10)
-        self.from_jobs = Entry(self.bottom1, font=('arial 20 bold'), width=12)
-        self.from_jobs.place(x=290, y=38)
+            self.aadd_s = Label(self.bottom1, text="Địa Chỉ:", font=('arial 12 bold'), fg='black', bg='lightblue')
+            self.aadd_s.place(x=485, y=10)
+            self.from_addss = Entry(self.bottom1, font=('arial 20 bold'), width=10)
+            self.from_addss.place(x=485, y=38)
 
-        self.aadd_s = Label(self.bottom1, text="Địa Chỉ:", font=('arial 12 bold'), fg='black', bg='lightblue')
-        self.aadd_s.place(x=485, y=10)
-        self.from_addss = Entry(self.bottom1, font=('arial 20 bold'), width=10)
-        self.from_addss.place(x=485, y=38)
+            self.born_s2 = Label(self.bottom1, text="Năm sinh:", font=('arial 12 bold'), fg='black', bg='lightblue')
+            self.born_s2.place(x=650, y=10)
+            self.born_agess = Entry(self.bottom1, font=('arial 20 bold'), width=5)
+            self.born_agess.place(x=650, y=38)
 
-        self.born_s2 = Label(self.bottom1, text="Năm sinh:", font=('arial 12 bold'), fg='black', bg='lightblue')
-        self.born_s2.place(x=650, y=10)
-        self.born_agess = Entry(self.bottom1, font=('arial 20 bold'), width=5)
-        self.born_agess.place(x=650, y=38)
+            self.scrollbarx = Scrollbar(self.RightForm, orient=HORIZONTAL)
+            self.scrollbary = Scrollbar(self.RightForm, orient=VERTICAL)
+            self.tree = ttk.Treeview(self.RightForm, columns=("Id", "Name", "Job", "Address", "Age"),
+                                     selectmode="extended",
+                                     height=400, yscrollcommand=self.scrollbary.set, xscrollcommand=self.scrollbarx.set)
+            self.scrollbary.config(command=self.tree.yview)
+            self.scrollbary.pack(side=RIGHT, fill=Y)
+            self.scrollbarx.config(command=self.tree.xview)
+            self.scrollbarx.pack(side=BOTTOM, fill=X)
+            self.tree.column('#0', stretch=NO, minwidth=0, width=0)
+            self.tree.column('#1', stretch=NO, minwidth=0, width=30)
+            self.tree.column('#2', stretch=NO, minwidth=0, width=300)
+            self.tree.column('#3', stretch=NO, minwidth=0, width=250)
+            self.tree.column('#4', stretch=NO, minwidth=0, width=250)
 
-        self.scrollbarx = Scrollbar(self.RightForm, orient=HORIZONTAL)
-        self.scrollbary = Scrollbar(self.RightForm, orient=VERTICAL)
-        self.tree = ttk.Treeview(self.RightForm, columns=("Id", "Name", "Job", "Address", "Age"),
-                                 selectmode="extended",
-                                 height=400, yscrollcommand=self.scrollbary.set, xscrollcommand=self.scrollbarx.set)
-        self.scrollbary.config(command=self.tree.yview)
-        self.scrollbary.pack(side=RIGHT, fill=Y)
-        self.scrollbarx.config(command=self.tree.xview)
-        self.scrollbarx.pack(side=BOTTOM, fill=X)
-        self.tree.column('#0', stretch=NO, minwidth=0, width=0)
-        self.tree.column('#1', stretch=NO, minwidth=0, width=30)
-        self.tree.column('#2', stretch=NO, minwidth=0, width=300)
-        self.tree.column('#3', stretch=NO, minwidth=0, width=250)
-        self.tree.column('#4', stretch=NO, minwidth=0, width=250)
+            self.tree.pack()
+            self.tree.heading('Id', text="Id", anchor=W)
+            self.tree.heading('Name', text="Name", anchor=W)
+            self.tree.heading('Job', text="Job", anchor=W)
+            self.tree.heading('Address', text="Address", anchor=W)
+            self.tree.heading('Age', text="Age", anchor=W)
+            self.logic1 = 2
 
-        self.tree.pack()
-        self.tree.heading('Id', text="Id", anchor=W)
-        self.tree.heading('Name', text="Name", anchor=W)
-        self.tree.heading('Job', text="Job", anchor=W)
-        self.tree.heading('Address', text="Address", anchor=W)
-        self.tree.heading('Age', text="Age", anchor=W)
+
 
     def Deletedata(self):
 
@@ -285,10 +290,12 @@ class Application:
 
 
     def add_to_cart(self, *args, **kwargs):
+
         self.right.destroy()
         self.bottom.destroy()
         self.bottom1.destroy()
         self.bottom2.destroy()
+        self.logic1 = 1
 
     def delete_text(self, *args, **kwargs):
 
@@ -529,13 +536,18 @@ class Application:
         rows = cur.fetchall()
         for row in rows:
             print("%s" % (row["id"]))
+        #webbrowser.open_new(r'doccument/%s.pdf' % ("a" + str(row["id"])))
         webbrowser.open_new(r'doccument/%s.pdf' % ("a" + str(row["id"])))
 
     def endoscopy(self):
+
         class video(QtWidgets.QDialog, Ui_Form):
+
             def __init__(self):
+                self.value1 = 1
                 super().__init__()
                 self.value = 0
+
                 #        uic.loadUi('test2.ui',self)                           # ---
                 self.setupUi(self)  # +++
 
@@ -553,9 +565,8 @@ class Application:
                 self.timer = QtCore.QTimer(self, interval=5)
                 self.timer.timeout.connect(self.update_frame)
                 self._image_counter = 0
-                #self.start_webcam()
 
-
+                self.start_webcam()
 
             @QtCore.pyqtSlot()
             def start_webcam(self):
@@ -568,7 +579,7 @@ class Application:
             @QtCore.pyqtSlot()
             def update_frame(self):
                 ret, image = self.cap.read()
-                image = imutils.resize(image, width=550, height=480)
+                image = imutils.resize(image, width=540, height=480)
                 image = cv2.flip(image, 1)
                 self.displayImage(image, True)
 
@@ -598,19 +609,18 @@ class Application:
 
                 self.imgLabel_6.setPixmap(QPixmap('anh/%s.png' % ("a" + str(row["max(id)"]) + "a4" )))
 
-
                 conn.commit()
                 conn.close()
-
 
             def recoder(self):
 
                 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-                out = cv2.VideoWriter('output.avi', fourcc, 20.0, (350, 300))
+                out = cv2.VideoWriter('output.avi', fourcc, 20.0, (640, 480))
                 ret, frame = self.cap.read()
-                frame = cv2.flip(frame, 0)
-                out.write(frame)
-                self.TEXT.setText('VIDEO RECORDER')
+                if ret == True:
+                    frame = cv2.flip(frame, 0)
+                    out.write(frame)
+                    self.TEXT.setText('VIDEO RECORDER')
 
             def displayImage(self, img, window=True):
                 qformat = QtGui.QImage.Format_Indexed8
@@ -624,10 +634,8 @@ class Application:
                 if window:
                     self.imgLabel.setPixmap(QtGui.QPixmap.fromImage(outImage))
 
-
             def w1(self):
                 window.close()
-                self.cap.release()
 
             def create_pdf2(self):
                 # Set up a logo
@@ -663,8 +671,6 @@ class Application:
 
                 for row4 in rows4:
                     row4["dt_name"]
-
-
 
                 t = row2["name_pk"]
                 t1 = row3["address"]
@@ -785,9 +791,10 @@ class Application:
                 directory1 = "doccument/"
                 if not os.path.exists(directory1):
                     os.makedirs(directory1)
-                pdf.output('doccument/%s.pdf' %("a" + str(row["max(id)"])))
-
-                webbrowser.open_new(r'doccument/%s.pdf' %("a" + str(row["max(id)"])))
+               # pdf.output('doccument\%s.pdf' %("a" + str(row["max(id)"])))
+               # webbrowser.open_new(r'doccument\%s.pdf' %("a" + str(row["max(id)"])))
+                pdf.output('doccument/%s.pdf' % ("a" + str(row["max(id)"])))
+                webbrowser.open_new(r'doccument/%s.pdf' % ("a" + str(row["max(id)"])))
                 conn.commit()
                 cur.close()
         window = video()
@@ -801,5 +808,3 @@ app = QApplication(sys.argv)
 root.geometry("1360x768")
 b = Application(root)
 root.mainloop()
-
-
